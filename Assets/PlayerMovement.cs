@@ -13,8 +13,11 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rigidbody2d;
     private BoxCollider2D boxCollider2d;
 
+    private Animator anim;
+
     void Start()
     {
+        anim = GetComponent<Animator>();
         playerMovement = transform.GetComponent<PlayerMovement>();
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
@@ -40,26 +43,31 @@ public class PlayerMovement : MonoBehaviour
         if(other.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
+            anim.SetBool("isJumping", false);
         }
 
-        if(other.gameObject.CompareTag("Platform"))
+        if (other.gameObject.CompareTag("Platform"))
         {
             player.transform.parent = other.transform;
             isJumping = false;
+            anim.SetBool("isJumping", false);
         }
     }
+
 
     private void OnCollisionExit2D(Collision2D other)
     {
         if(other.gameObject.CompareTag("Ground"))
         {
             isJumping = true;
+            anim.SetBool("isJumping", true);
         }
 
-        if(other.gameObject.CompareTag("Platform"))
+        if (other.gameObject.CompareTag("Platform"))
         {
             player.transform.parent = null;
             isJumping = true;
+            anim.SetBool("isJumping", true);
         }
     }
 
